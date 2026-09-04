@@ -1,0 +1,8 @@
+{
+  "name": "survey-control-room",
+  "private": true,
+  "dependencies": {
+    "@netlify/blobs": "^8.2.0",
+    "xlsx": "^0.18.5"
+  }
+}
