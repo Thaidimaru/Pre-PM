@@ -1,0 +1,9 @@
+survey.db
+__pycache__/
+*.pyc
+photos/
+backups/
+*.json
+SURVEY_DATA.xlsx
+export-surveys.ps1
+server.ps1
