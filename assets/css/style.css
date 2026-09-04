@@ -1,0 +1,751 @@
+/* ==========================================================================
+   NBTC Microwave — Survey Control Room (Pre-PM)
+   Design System & Application Stylesheet
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens & CSS Variables
+   -------------------------------------------------------------------------- */
+:root {
+  --bg: #07111f;
+  --panel: rgba(13, 27, 45, 0.76);
+  --panel2: rgba(17, 34, 55, 0.88);
+  --line: rgba(137, 181, 216, 0.18);
+  --text: #edf6ff;
+  --muted: #91a8bc;
+  --blue: #68b8ff;
+  --cyan: #68e4e0;
+  --pink: #ff879d;
+  --green: #65d6a2;
+  --shadow: 0 25px 70px rgba(0, 0, 0, 0.28);
+}
+
+/* --------------------------------------------------------------------------
+   2. Base & Typography
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Noto Sans Thai', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 15% 10%, #12365b 0, transparent 32%),
+    radial-gradient(circle at 90% 15%, #3a183b 0, transparent 30%),
+    linear-gradient(135deg, #050b14, #091828 55%, #07111d);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   3. Ambient Effects & Layout
+   -------------------------------------------------------------------------- */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.spot {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 20%), rgba(104, 184, 255, 0.09), transparent 45%);
+  z-index: 1;
+}
+
+/* Navigation Bar */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid var(--line);
+  background: rgba(5, 13, 23, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.navin {
+  max-width: 1280px;
+  margin: auto;
+  padding: 12px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.brand img {
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1e547f, #18334f);
+  box-shadow: 0 0 28px rgba(74, 174, 255, 0.15);
+}
+
+.brand small {
+  display: block;
+  color: #7195b2;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+.navbtns {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.navbtn {
+  border: 1px solid transparent;
+  background: transparent;
+  color: #91a8bc;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.navbtn:hover,
+.navbtn.active {
+  color: #fff;
+  background: rgba(104, 184, 255, 0.1);
+  border-color: rgba(104, 184, 255, 0.2);
+  box-shadow: 0 0 25px rgba(104, 184, 255, 0.08);
+}
+
+.navbtn img {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 8px;
+  filter: brightness(1.15);
+}
+
+.logout {
+  border-color: rgba(255, 135, 157, 0.2);
+  color: #ffadba;
+}
+
+.logout:hover {
+  background: rgba(255, 135, 157, 0.15);
+  border-color: rgba(255, 135, 157, 0.35);
+  color: #fff;
+}
+
+/* Page Container */
+.page {
+  max-width: 1280px;
+  width: 100%;
+  margin: auto;
+  padding: 34px 22px 70px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  align-items: flex-end;
+  margin-bottom: 26px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #70a7ce;
+  font-weight: 700;
+}
+
+.hero h1 {
+  font-size: clamp(2.1rem, 5vw, 3.8rem);
+  line-height: 1.05;
+  margin: 10px 0 0;
+  letter-spacing: -1.5px;
+  background: linear-gradient(100deg, #fff, #9fd7ff 55%, #8fe5df);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sub {
+  color: var(--muted);
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.live {
+  font-size: 12px;
+  color: #8fa8bd;
+  text-align: right;
+  line-height: 1.6;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 7px rgba(101, 214, 162, 0.12);
+  margin-right: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   4. Glassmorphism & UI Containers
+   -------------------------------------------------------------------------- */
+.glass {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(21, 41, 64, 0.84), rgba(8, 20, 34, 0.8));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.8s ease;
+  pointer-events: none;
+}
+
+.glass:hover::before {
+  transform: translateX(100%);
+}
+
+/* KPI Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.card {
+  padding: 22px;
+  border-radius: 18px;
+  min-height: 130px;
+}
+
+.card small {
+  color: #8fa8bd;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.value {
+  display: block;
+  font-size: 2.35rem;
+  font-weight: 800;
+  margin-top: 10px;
+  letter-spacing: -1px;
+}
+
+.blue  { color: #79c5ff; }
+.cyan  { color: #72e4df; }
+.pink  { color: #ff8fa3; }
+.green { color: #69dca7; }
+
+/* Dashboard Grids & Panels */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.45fr;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.panel {
+  padding: 24px;
+  border-radius: 18px;
+}
+
+.panel h2 {
+  font-size: 16px;
+  margin: 0 0 20px;
+  color: #d1e5f8;
+}
+
+.bars {
+  display: grid;
+  gap: 14px;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: 130px 1fr 35px;
+  gap: 12px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #5c9fe2, #72e4df);
+  transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Tables */
+.tablewrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+}
+
+.table th {
+  font-size: 12px;
+  color: #7795ad;
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 600;
+}
+
+.table td {
+  padding: 13px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 13px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.ok {
+  color: #69dca7;
+  background: rgba(105, 220, 167, 0.12);
+}
+
+.no {
+  color: #ff8fa3;
+  background: rgba(255, 143, 163, 0.12);
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px;
+}
+
+/* --------------------------------------------------------------------------
+   5. Field Visit Form Styling
+   -------------------------------------------------------------------------- */
+.formShell {
+  max-width: 1050px;
+  margin: 25px auto;
+  background: linear-gradient(145deg, rgba(14, 31, 50, 0.92), rgba(6, 17, 29, 0.92));
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  padding: clamp(22px, 4vw, 45px);
+  box-shadow: var(--shadow);
+}
+
+.formTitle {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.15;
+  margin: 8px 0 0;
+  background: linear-gradient(90deg, #fff, #9dd7ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.section {
+  margin-top: 24px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.section:hover {
+  border-color: rgba(104, 184, 255, 0.28);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16);
+}
+
+.section h2 {
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #a9d7f8;
+  letter-spacing: 0.5px;
+}
+
+.field {
+  margin-top: 14px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #9bb1c4;
+  margin-bottom: 7px;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 14px;
+  color: #eef7ff;
+  background: rgba(6, 19, 33, 0.7);
+  border: 1px solid rgba(115, 149, 174, 0.22);
+  border-radius: 11px;
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+  border-color: rgba(104, 184, 255, 0.6);
+  box-shadow: 0 0 0 4px rgba(104, 184, 255, 0.12);
+}
+
+textarea.input {
+  min-height: 75px;
+  resize: vertical;
+}
+
+.radio {
+  padding: 12px 14px;
+  background: rgba(6, 19, 33, 0.7);
+  border-radius: 11px;
+  border: 1px solid rgba(115, 149, 174, 0.22);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.radio label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #c7d8e5;
+  font-size: 13.5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio input[type="radio"] {
+  cursor: pointer;
+  accent-color: #68b8ff;
+}
+
+.formtable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.formtable th,
+.formtable td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  font-size: 13.5px;
+}
+
+.formtable th {
+  color: #82aac7;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* --------------------------------------------------------------------------
+   6. Photo Upload & Preview Thumbnails
+   -------------------------------------------------------------------------- */
+.photo-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.photo-preview-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(104, 184, 255, 0.25);
+  background: #061321;
+}
+
+.photo-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-preview-item .photo-info {
+  position: absolute;
+  bottom: 0;
+  inset-inline: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+  padding: 4px 6px;
+  font-size: 10px;
+  color: #c7d8e5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.photo-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 135, 157, 0.85);
+  color: #fff;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0;
+  transition: transform 0.15s, background 0.15s;
+}
+
+.photo-remove-btn:hover {
+  background: #ff879d;
+  transform: scale(1.1);
+}
+
+/* --------------------------------------------------------------------------
+   7. Buttons, Status & Alerts
+   -------------------------------------------------------------------------- */
+.primary {
+  width: 100%;
+  margin-top: 24px;
+  padding: 15px;
+  border: 0;
+  border-radius: 14px;
+  color: #04101b;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  background: linear-gradient(100deg, #68b8ff, #72e4df);
+  box-shadow: 0 12px 35px rgba(104, 184, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 45px rgba(104, 184, 255, 0.3);
+}
+
+.primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(4, 16, 27, 0.25);
+  border-top-color: #04101b;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.status-alert {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.status-alert.success {
+  background: rgba(105, 220, 167, 0.12);
+  border: 1px solid rgba(105, 220, 167, 0.3);
+  color: #69dca7;
+}
+
+.status-alert.error {
+  background: rgba(255, 143, 163, 0.12);
+  border: 1px solid rgba(255, 143, 163, 0.3);
+  color: #ff8fa3;
+}
+
+.status-alert.info {
+  background: rgba(104, 184, 255, 0.12);
+  border: 1px solid rgba(104, 184, 255, 0.3);
+  color: #68b8ff;
+}
+
+/* --------------------------------------------------------------------------
+   8. Authentication / Login Page
+   -------------------------------------------------------------------------- */
+.login {
+  min-height: calc(100vh - 80px);
+  display: grid;
+  place-items: center;
+  padding: 30px;
+}
+
+.loginbox {
+  width: min(430px, 100%);
+  padding: 38px;
+  border-radius: 24px;
+}
+
+.loginbox h1 {
+  margin: 14px 0 8px;
+  font-size: 2rem;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.error {
+  color: #ff8fa3;
+  min-height: 24px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+/* --------------------------------------------------------------------------
+   9. Animations
+   -------------------------------------------------------------------------- */
+.reveal {
+  animation: reveal 0.65s both cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes shine {
+  to {
+    background-position: -250% 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 850px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .hero {
+    display: block;
+  }
+  .live {
+    text-align: left;
+    margin-top: 15px;
+  }
+  .navin {
+    align-items: flex-start;
+  }
+  .navbtns {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 520px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .card {
+    padding: 16px;
+    min-height: 110px;
+  }
+  .value {
+    font-size: 1.8rem;
+  }
+  .navbtn {
+    padding: 8px 10px;
+  }
+  .navbtn span {
+    display: none;
+  }
+  .page {
+    padding: 22px 12px 45px;
+  }
+  .formShell {
+    padding: 18px 15px;
+    border-radius: 20px;
+  }
+  .section {
+    padding: 16px 14px;
+  }
+  .formtable {
+    font-size: 12px;
+  }
+  .radio {
+    gap: 12px;
+  }
+}
