@@ -6,7 +6,7 @@
 ![Netlify Functions](https://img.shields.io/badge/Serverless-Netlify%20Functions-00C7B7?logo=netlify)
 ![SQLite](https://img.shields.io/badge/Database-SQLite%20%2F%20Netlify%20Blobs-003B57?logo=sqlite)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
-![Version](https://img.shields.io/badge/version-2.0.1-blue)
+![Version](https://img.shields.io/badge/version-2.0.2-blue)
 
 ระบบศูนย์ควบคุมและบันทึกข้อมูลการเข้าตรวจเยี่ยมเจ้าของพื้นที่สำหรับงานบำรุงรักษาเชิงป้องกันล่วงหน้า (Pre-Preventive Maintenance) สถานีวิทยุคมนาคม NBTC Microwave
 

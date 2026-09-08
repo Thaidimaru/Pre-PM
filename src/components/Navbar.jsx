@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, Clock, ShieldCheck, Radio } from 'lucide-react';
 import { APP_VERSION } from '@/version';
+import nbtcLogo from '@/assets/images/nbtc-logo-dashboard.png';
 
 export function Navbar() {
   const [timeStr, setTimeStr] = useState(() =>
@@ -28,8 +29,13 @@ export function Navbar() {
         {/* Brand */}
         <div className="flex items-center gap-4">
           <img
-            src="/assets/images/nbtc-logo-dashboard.png"
+            src={nbtcLogo}
             alt="NBTC Logo"
+            onError={(e) => {
+              if (e.currentTarget.src !== '/assets/images/nbtc-logo-dashboard.png') {
+                e.currentTarget.src = '/assets/images/nbtc-logo-dashboard.png';
+              }
+            }}
             className="h-14 w-auto object-contain drop-shadow-[0_0_12px_rgba(8,127,255,0.3)]"
           />
           <div className="flex flex-col">

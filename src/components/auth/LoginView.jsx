@@ -5,6 +5,7 @@ import { GlassCard } from '@/components/ui/glass-card';
 import { ShinyText } from '@/components/ui/shiny-text';
 import { APP_VERSION } from '@/version';
 import { loginUser } from '@/lib/api';
+import nbtcLogo from '@/assets/images/nbtc-logo-dashboard.png';
 
 export function LoginView({ onLoginSuccess }) {
   const [password, setPassword] = useState('');
@@ -40,8 +41,13 @@ export function LoginView({ onLoginSuccess }) {
           {/* Brand Header */}
           <div className="flex items-center gap-3.5 pb-6 border-b border-slate-800">
             <img
-              src="/assets/images/nbtc-logo-dashboard.png"
+              src={nbtcLogo}
               alt="NBTC Logo"
+              onError={(e) => {
+                if (e.currentTarget.src !== '/assets/images/nbtc-logo-dashboard.png') {
+                  e.currentTarget.src = '/assets/images/nbtc-logo-dashboard.png';
+                }
+              }}
               className="h-12 w-auto object-contain drop-shadow-[0_0_10px_rgba(8,127,255,0.4)]"
             />
             <div className="flex flex-col">
