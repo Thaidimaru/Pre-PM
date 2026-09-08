@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Sarabun", "Noto Sans Thai", "Inter", system-ui, sans-serif;
+  --color-control-dark: #020b1b;
+  --color-control-deep: #031533;
+  --color-control-surface: rgba(10, 26, 48, 0.78);
+  --color-control-card: rgba(13, 31, 57, 0.85);
+  --color-control-border: rgba(56, 149, 255, 0.22);
+  --color-control-border-hover: rgba(56, 149, 255, 0.45);
+  --color-brand-blue: #087fff;
+  --color-brand-cyan: #24b8ff;
+  --color-brand-emerald: #00d49a;
+  --color-brand-rose: #ff4f67;
+  --color-brand-purple: #8b5cf6;
+}
+
+:root {
+  color-scheme: dark;
+  --font-gui: "Sarabun", "Noto Sans Thai", "Inter", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-gui);
+  background-color: #020b1b;
+  color: #edf6ff;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Glassmorphic sheen utility */
+.glass-panel {
+  background: linear-gradient(145deg, rgba(14, 33, 58, 0.85), rgba(7, 19, 35, 0.88));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(56, 149, 255, 0.22);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.glass-card {
+  background: linear-gradient(145deg, rgba(16, 38, 67, 0.75), rgba(8, 22, 40, 0.7));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(56, 149, 255, 0.18);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(56, 149, 255, 0.45);
+  box-shadow: 0 15px 35px rgba(8, 127, 255, 0.12);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(4, 15, 30, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(56, 149, 255, 0.3);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 149, 255, 0.5);
+}
+
+/* Animations */
+@keyframes shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-shine {
+  animation: shine 4s linear infinite;
+}
+
+@keyframes ping-slow {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.6);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.animate-ping-slow {
+  animation: ping-slow 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+}

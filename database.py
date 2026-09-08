@@ -24,6 +24,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 class AppConfig:
     ROOT = Path(__file__).resolve().parent
+    DIST_DIR = ROOT / "dist"
     DB_PATH = ROOT / "survey.db"
     HTML_PATH = ROOT / "index.html"
     PASSWORD_PATH = ROOT / "access-password.txt"
@@ -360,21 +361,37 @@ class SurveyRequestHandler(BaseHTTPRequestHandler):
             parsed_path = "/"
 
         # 1. Main Application Pages (SPA)
-        if parsed_path in ("/", "/html", "/dashboard"):
-            self.serve_file(AppConfig.HTML_PATH, "text/html; charset=utf-8")
+        if parsed_path in ("/", "/html", "/dashboard", "/login", "/field"):
+            dist_html = AppConfig.DIST_DIR / "index.html"
+            html_to_serve = dist_html if dist_html.exists() else AppConfig.HTML_PATH
+            self.serve_file(html_to_serve, "text/html; charset=utf-8")
             return
 
-        # 2. Static Assets (/assets/css/..., /assets/js/..., /assets/icons/...)
+        # 2. Static Assets (/assets/css/..., /assets/js/..., /assets/...)
         if parsed_path.startswith("/assets/"):
             rel_path = parsed_path.removeprefix("/assets/").lstrip("/")
-            target_path = (AppConfig.ASSETS_DIR / rel_path).resolve()
             
+            # Check dist/assets first if dist exists
+            dist_asset = (AppConfig.DIST_DIR / "assets" / rel_path).resolve()
+            if dist_asset.is_file() and (AppConfig.DIST_DIR in dist_asset.parents):
+                self.serve_file(dist_asset)
+                return
+
+            target_path = (AppConfig.ASSETS_DIR / rel_path).resolve()
             # Guard against path traversal outside the assets directory
             if AppConfig.ASSETS_DIR in target_path.parents and target_path.is_file():
                 self.serve_file(target_path)
                 return
             self.send_json_response(404, {"error": "Asset not found"})
             return
+
+        # 2.1 Any root static files in dist/ (e.g. favicon, images)
+        if AppConfig.DIST_DIR.exists():
+            clean_rel = parsed_path.lstrip("/")
+            dist_file = (AppConfig.DIST_DIR / clean_rel).resolve()
+            if AppConfig.DIST_DIR in dist_file.parents and dist_file.is_file():
+                self.serve_file(dist_file)
+                return
 
         # 3. API: Live Dashboard Metrics
         if parsed_path == "/api/dashboard":
@@ -383,7 +400,7 @@ class SurveyRequestHandler(BaseHTTPRequestHandler):
             return
 
         # 4. API: Station Master Database
-        if parsed_path == "/database":
+        if parsed_path in ("/database", "/api/database"):
             auth_header = self.headers.get("Authorization", "")
             if not auth_service.is_authorized(auth_header):
                 self.send_json_response(401, {"error": "Unauthorized"})
@@ -405,7 +422,7 @@ class SurveyRequestHandler(BaseHTTPRequestHandler):
             payload = json.loads(body_bytes.decode("utf-8") or "{}")
 
             # 1. Login Endpoint
-            if path == "/login":
+            if path in ("/login", "/api/login"):
                 password = payload.get("password", "")
                 if not auth_service.verify_password(password):
                     self.send_json_response(401, {"error": "invalid password"})
@@ -415,7 +432,7 @@ class SurveyRequestHandler(BaseHTTPRequestHandler):
                 return
 
             # 2. Save Survey Endpoint
-            if path == "/save":
+            if path in ("/save", "/api/save"):
                 auth_header = self.headers.get("Authorization", "")
                 if not auth_service.is_authorized(auth_header):
                     self.send_json_response(401, {"error": "Unauthorized"})

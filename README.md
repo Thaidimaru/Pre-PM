@@ -6,7 +6,7 @@
 ![Netlify Functions](https://img.shields.io/badge/Serverless-Netlify%20Functions-00C7B7?logo=netlify)
 ![SQLite](https://img.shields.io/badge/Database-SQLite%20%2F%20Netlify%20Blobs-003B57?logo=sqlite)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-2.0.1-blue)
 
 ระบบศูนย์ควบคุมและบันทึกข้อมูลการเข้าตรวจเยี่ยมเจ้าของพื้นที่สำหรับงานบำรุงรักษาเชิงป้องกันล่วงหน้า (Pre-Preventive Maintenance) สถานีวิทยุคมนาคม NBTC Microwave
 
@@ -79,22 +79,33 @@ graph TD
 
 ```text
 Pre-PM/
-├── assets/
-│   └── icons/                 # ไอคอน SVG สำหรับ Dashboard และ Navigation
+├── src/
+│   ├── components/
+│   │   ├── auth/              # ระบบยืนยันตัวตน (LoginView)
+│   │   ├── dashboard/         # ศูนย์ควบคุม (DashboardView, KpiCards, ProvinceChart, SurveyDonut, RecentSurveys)
+│   │   ├── field/             # แบบบันทึกตรวจเยี่ยมภาคสนาม (FieldVisitView)
+│   │   ├── ui/                # Accessible Primitives (Radix UI) & Kinetic Effects (React Bits UI)
+│   │   ├── Navbar.jsx         # แถบหัวระบบแบบสด พร้อมนาฬิกาและสถานะการเชื่อมต่อ
+│   │   └── Sidebar.jsx        # แถบเมนูนำทางด้านข้างแบบ Glassmorphic (Lucide Icons)
+│   ├── lib/
+│   │   ├── api.js             # Client API Service Layer
+│   │   └── utils.js           # Class merging utilities (clsx + tailwind-merge)
+│   ├── App.jsx                # Single Page Application Shell & Routing
+│   ├── index.css              # Tailwind CSS 4.0 Theme & Tokens
+│   ├── main.jsx               # Vite Entry Point
+│   └── version.js             # Authoritative Single Source of Truth (v2.0.0)
 ├── netlify/
 │   └── functions/
 │       └── api.js             # Netlify Serverless Backend API (Blobs + XLSX)
-├── .gitignore                 # ตั้งค่า Ignore ไฟล์ชั่วคราว, DB, และ node_modules
+├── .gitignore                 # ตั้งค่า Ignore ไฟล์ชั่วคราว, dist, DB, และ node_modules
 ├── access-password.txt        # รหัสผ่านเริ่มต้นสำหรับเข้าสู่ระบบ
 ├── DATABASE.xlsx              # ฐานข้อมูลสถานีหลัก (Master Station Records)
-├── database.py                # เซิร์ฟเวอร์ Python สำหรับรันแบบ Local / Dedicated
-├── export-surveys.ps1         # สคริปต์ส่งออกข้อมูลแบบสำรวจเป็น Excel (SURVEY_DATA.xlsx)
-├── index.html                 # หน้าเว็บหลัก React 18 SPA (Dashboard + Field Form)
-├── netlify.toml               # การตั้งค่า Build, Redirects และ Security Rules สำหรับ Netlify
-├── package.json               # Node.js dependencies (@netlify/blobs, xlsx)
-├── package-lock.json          # Dependency lockfile
-├── requirements.txt           # Python dependencies (สำหรับ Render / Cloud deployment)
-├── server.ps1                 # สคริปต์ PowerShell สำหรับรัน Local Server อัตโนมัติ
+├── database.py                # เซิร์ฟเวอร์ Python รองรับ Local API และเสิร์ฟ Vite Production Build
+├── index.html                 # Vite SPA Entry HTML
+├── netlify.toml               # การตั้งค่า Build (Vite) และ Redirects สำหรับ Netlify
+├── package.json               # Node.js dependencies & scripts (React 18.3, Vite 5.4, Tailwind 4, Radix, Lucide)
+├── vercel.json                # การตั้งค่า Deploy สู่ Vercel
+├── vite.config.mjs            # Vite 5.4 configuration พร้อม Tailwind 4 & API Proxies
 └── README.md                  # เอกสารคู่มือโครงการ
 ```
 
@@ -102,37 +113,42 @@ Pre-PM/
 
 ## 🚀 การติดตั้งและใช้งาน (Getting Started)
 
-### วิธีที่ 1: รันบนเครื่อง Local ด้วย PowerShell (Windows)
-
-1. ดับเบิลคลิกหรือรันสคริปต์ [server.ps1](file:///d:/Users/utai3/OneDrive%20-%20FORTH%20CORPORATION%20PUBLIC%20COMPANY%20LIMITED/NBTC%20Microwave/Coding/FIXED/server.ps1) ผ่าน PowerShell:
-   ```powershell
-   .\server.ps1
-   ```
-2. ระบบจะทำการตรวจสอบ Python อัตโนมัติ และเปิดเบราว์เซอร์ไปยัง `http://localhost:8765`
-3. เข้าสู่ระบบด้วยรหัสผ่านใน [access-password.txt](file:///d:/Users/utai3/OneDrive%20-%20FORTH%20CORPORATION%20PUBLIC%20COMPANY%20LIMITED/NBTC%20Microwave/Coding/FIXED/access-password.txt)
-
----
-
-### วิธีที่ 2: รันผ่าน Python โดยตรง
+### การพัฒนาและทดสอบระบบ Frontend (Vite Dev Server)
 
 ```bash
-# รันเซิร์ฟเวอร์บนพอร์ตเริ่มต้น (8765) หรือระบุพอร์ตด้วย PORT=8080
-python database.py
+# 1. ติดตั้ง Dependencies
+npm install
+
+# 2. เริ่มต้น Vite Development Server (Hot Module Replacement)
+npm run dev
+
+# 3. สร้าง Production Bundle
+npm run build
+
+# 4. ทดสอบ Production Preview
+npm run preview
 ```
 
+### การรัน Backend + Frontend พร้อมกันบน Local
+
+1. รันเซิร์ฟเวอร์ Python สำหรับบริการ API และเสิร์ฟหน้าเว็บ (`dist`):
+   ```bash
+   python database.py
+   ```
+2. เปิดเบราว์เซอร์ไปยัง `http://localhost:8765`
+3. เข้าสู่ระบบด้วยรหัสผ่านใน `access-password.txt`
+
 ---
 
-### วิธีที่ 3: Deploy สู่ Netlify (Cloud Serverless)
+### วิธี Deploy สู่ Netlify / Vercel (Cloud Serverless)
 
-1. เชื่อมต่อ Git Repository เข้ากับบัญชี [Netlify](https://www.netlify.com/)
-2. ระบบจะอ่านการตั้งค่าจาก [netlify.toml](file:///d:/Users/utai3/OneDrive%20-%20FORTH%20CORPORATION%20PUBLIC%20COMPANY%20LIMITED/NBTC%20Microwave/Coding/FIXED/netlify.toml) อัตโนมัติ:
-   - **Publish directory**: `.`
-   - **Functions directory**: `netlify/functions`
-3. ตั้งค่า Environment Variables บน Netlify (Site settings > Environment variables):
+1. เชื่อมต่อ Git Repository เข้ากับบัญชี Netlify หรือ Vercel
+2. ระบบจะสั่ง `npm run build` และเผยแพร่ไดเรกทอรี `dist` อัตโนมัติ:
+   - **Build command**: `npm run build`
+   - **Publish directory**: `dist`
+   - **Functions directory**: `netlify/functions` (Netlify) หรือ `api/handler.js` (Vercel)
+3. ตั้งค่า Environment Variable:
    - `FORM_PASSWORD`: *(กำหนดรหัสผ่านสำหรับเข้าสู่ระบบ)*
-4. กด **Deploy site** — ใช้งานได้ทันทีพร้อมพื้นที่จัดเก็บข้อมูลบน Netlify Blobs
-
----
 
 ## 📊 การส่งออกข้อมูลเป็น Excel (Export Data)
 

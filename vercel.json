@@ -1,15 +1,17 @@
 {
   "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "functions": {
     "api/handler.js": {
       "includeFiles": "DATABASE.xlsx,access-password.txt,survey-*.json"
     }
   },
   "rewrites": [
-    { "source": "/dashboard", "destination": "/index.html" },
     { "source": "/login", "destination": "/api/handler?route=login" },
     { "source": "/database", "destination": "/api/handler?route=database" },
     { "source": "/save", "destination": "/api/handler?route=save" },
-    { "source": "/api/dashboard", "destination": "/api/handler?route=dashboard" }
+    { "source": "/api/dashboard", "destination": "/api/handler?route=dashboard" },
+    { "source": "/dashboard", "destination": "/index.html" }
   ]
 }

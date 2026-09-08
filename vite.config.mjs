@@ -1,0 +1,72 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const proxyErrorHandler = (proxy) => {
+  proxy.on('error', (err, req, res) => {
+    if (!res.headersSent) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(
+        JSON.stringify({
+          error: 'backend_unavailable',
+          message: 'Backend server is not running on port 8765. Please start python database.py.',
+        })
+      );
+    }
+  });
+};
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8765',
+        changeOrigin: true,
+        configure: proxyErrorHandler,
+      },
+      // When navigating to /login in browser, bypass proxy to let Vite serve index.html (SPA).
+      // Only proxy POST requests (legacy API calls) to the backend.
+      '/login': {
+        target: 'http://localhost:8765',
+        changeOrigin: true,
+        bypass: (req) => {
+          if (req.method === 'GET' && (req.headers.accept?.includes('text/html') || !req.headers.accept)) {
+            return '/index.html';
+          }
+        },
+        configure: proxyErrorHandler,
+      },
+      '/database': {
+        target: 'http://localhost:8765',
+        changeOrigin: true,
+        configure: proxyErrorHandler,
+      },
+      '/save': {
+        target: 'http://localhost:8765',
+        changeOrigin: true,
+        configure: proxyErrorHandler,
+      },
+      '/photos': {
+        target: 'http://localhost:8765',
+        changeOrigin: true,
+        configure: proxyErrorHandler,
+      },
+    },
+  },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+  },
+});
