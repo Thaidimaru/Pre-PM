@@ -63,7 +63,7 @@ function GlassCard({ children, className = '' }) {
 
 const initialStats = { surveys: 0, stations: 0, allowed: 0, denied: 0 };
 
-function Dashboard() {
+function Dashboard({ onNavigate }) {
   const [data, setData] = useState({
     stats: initialStats,
     provinces: [],
@@ -93,117 +93,226 @@ function Dashboard() {
     return () => clearInterval(interval);
   }, []);
 
+  const total = data.stats.surveys || 0;
+  const allowed = data.stats.allowed || 0;
+  const denied = data.stats.denied || 0;
+  const pending = Math.max(total - allowed - denied, 0);
+
+  const allowedPct = total > 0 ? (allowed / total) * 100 : 0;
+  const deniedPct = total > 0 ? (denied / total) * 100 : 0;
+  const pendingPct = total > 0 ? (pending / total) * 100 : 0;
+
+  const donutStyle = {
+    background:
+      total > 0
+        ? `conic-gradient(#00d49a 0% ${allowedPct}%, #ff4f67 ${allowedPct}% ${allowedPct + deniedPct}%, #8b5cf6 ${allowedPct + deniedPct}% 100%)`
+        : 'conic-gradient(#00d49a 0% 0%, #1e293b 0% 100%)'
+  };
+
   const maxProvinceCount = Math.max(...data.provinces.map((p) => p.count), 1);
 
   return (
     <main className="page reveal">
-      <header className="hero">
-        <div>
-          <div className="eyebrow">FIELD SERVICE / LIVE OPERATIONS</div>
-          <h1>
-            <ShinyText>Survey Dashboard</ShinyText>
-          </h1>
-          <div className="sub">ศูนย์ควบคุมงานสำรวจและบันทึกการเข้าพื้นที่ (Pre-PM)</div>
-        </div>
-        <div className="live">
-          <span className="dot" />
-          LIVE DATA {isLoading && '· กำลังซิงค์...'}
-          <br />
-          {new Date(data.updatedAt).toLocaleString('th-TH')}
-        </div>
-      </header>
-
       {/* KPI Statistic Cards */}
       <section className="cards">
-        <GlassCard className="card">
-          <small>ผลสำรวจทั้งหมด</small>
-          <span className="value blue">{data.stats.surveys.toLocaleString()}</span>
+        <GlassCard className="card c-blue">
+          <div className="card-top">
+            <small>ผลสำรวจทั้งหมด</small>
+            <span className="card-icon">⌁</span>
+          </div>
+          <span className="value blue">{total.toLocaleString()}</span>
         </GlassCard>
-        <GlassCard className="card">
-          <small>สถานีในระบบ</small>
-          <span className="value cyan">{data.stats.stations.toLocaleString()}</span>
+
+        <GlassCard className="card c-cyan">
+          <div className="card-top">
+            <small>สถานีในระบบ</small>
+            <span className="card-icon">🏢</span>
+          </div>
+          <span className="value cyan">{(data.stats.stations || 0).toLocaleString()}</span>
         </GlassCard>
-        <GlassCard className="card">
-          <small>อนุญาตเข้าพื้นที่</small>
-          <span className="value green">{data.stats.allowed.toLocaleString()}</span>
+
+        <GlassCard className="card c-cyan">
+          <div className="card-top">
+            <small>อนุญาตเข้าพื้นที่</small>
+            <span className="card-icon">✓</span>
+          </div>
+          <span className="value green">{allowed.toLocaleString()}</span>
         </GlassCard>
-        <GlassCard className="card">
-          <small>ไม่อนุญาตเข้าพื้นที่</small>
-          <span className="value pink">{data.stats.denied.toLocaleString()}</span>
+
+        <GlassCard className="card c-red">
+          <div className="card-top">
+            <small>ไม่อนุญาตเข้าพื้นที่</small>
+            <span className="card-icon">×</span>
+          </div>
+          <span className="value pink">{denied.toLocaleString()}</span>
         </GlassCard>
       </section>
 
-      {/* Breakdown Grid */}
+      {/* Grid: Map & Province List on Left, Donut & Recent on Right */}
       <section className="grid">
-        <GlassCard className="panel">
-          <h2>พื้นที่ที่มีการสำรวจสูงสุด</h2>
-          <div className="bars">
-            {data.provinces.length > 0 ? (
-              data.provinces.map((item) => (
-                <div className="bar" key={item.name}>
-                  <span>{item.name}</span>
-                  <span className="track">
-                    <span
-                      className="fill"
-                      style={{ width: `${(item.count / maxProvinceCount) * 100}%` }}
-                    />
-                  </span>
-                  <strong>{item.count}</strong>
-                </div>
-              ))
-            ) : (
-              <div className="empty">ยังไม่มีข้อมูล</div>
-            )}
+        {/* Left: Map & Province Breakdown Panel */}
+        <GlassCard className="panel pixel-map-panel">
+          <div className="pixel-panel-title">
+            <span className="pixel-title-icon">⌘</span>
+            <h2>สรุปผลการสำรวจรายจังหวัด</h2>
+          </div>
+
+          <div className="pixel-map-layout">
+            <div className="pixel-map-box">
+              <div className="pixel-map-glow" />
+              <img
+                className="pixel-thai-map"
+                src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Thailand_provinces_th.svg"
+                alt="แผนที่ประเทศไทยแบ่งจังหวัด"
+                loading="lazy"
+              />
+              <div className="pixel-map-pulse p1" title="ภาคเหนือ" />
+              <div className="pixel-map-pulse p2" title="ภาคกลาง / ตะวันออก" />
+              <div className="pixel-map-pulse p3" title="ภาคใต้" />
+              <div className="pixel-map-pulse p4" title="ภาคอีสาน" />
+            </div>
+
+            <div className="pixel-province-list">
+              <div className="pixel-province-head">
+                <span>#</span>
+                <span>จังหวัด</span>
+                <span>กราฟสัดส่วน</span>
+                <span>รวม</span>
+              </div>
+              <div className="pixel-province-body">
+                {data.provinces.length > 0 ? (
+                  data.provinces.map((prov, i) => (
+                    <div className="pixel-province-row" key={prov.name}>
+                      <b>{i + 1}.</b>
+                      <span title={prov.name}>{prov.name}</span>
+                      <span className="mini-bars">
+                        <i
+                          style={{
+                            width: `${Math.max(12, Math.min(100, (prov.count / maxProvinceCount) * 100))}%`
+                          }}
+                        />
+                        <em
+                          style={{
+                            width: `${Math.max(6, Math.min(35, (prov.count / maxProvinceCount) * 35))}%`
+                          }}
+                        />
+                      </span>
+                      <strong>{prov.count.toLocaleString()}</strong>
+                    </div>
+                  ))
+                ) : (
+                  <div className="empty">ยังไม่มีข้อมูลจังหวัด</div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="pixel-map-legend">
+            <span><i className="g" />อนุญาต</span>
+            <span><i className="r" />ไม่อนุญาต</span>
+            <span><i className="b" />ไม่มีข้อมูล</span>
           </div>
         </GlassCard>
 
-        <GlassCard className="panel">
-          <h2>รายการสำรวจล่าสุด</h2>
-          <div className="tablewrap">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>รหัสรายการ</th>
-                  <th>สถานี</th>
-                  <th>จังหวัด</th>
-                  <th>ผล</th>
-                  <th>เวลาบันทึก</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.recent.length > 0 ? (
-                  data.recent.map((item) => (
-                    <tr key={item.recordId}>
-                      <td>{item.recordId}</td>
-                      <td>{item.station}</td>
-                      <td>{item.province}</td>
-                      <td>
-                        <span
-                          className={`badge ${
-                            item.permit === 'อนุญาต'
-                              ? 'ok'
-                              : item.permit === 'ไม่อนุญาต'
-                              ? 'no'
-                              : ''
-                          }`}
-                        >
-                          {item.permit}
-                        </span>
-                      </td>
-                      <td>{new Date(item.savedAt).toLocaleString('th-TH')}</td>
-                    </tr>
-                  ))
-                ) : (
+        {/* Right: Donut Chart and Recent Surveys Stack */}
+        <div className="pixel-right-stack">
+          {/* Donut Chart Panel */}
+          <GlassCard className="panel pixel-donut-panel">
+            <div className="pixel-panel-title">
+              <span className="pixel-title-icon">▣</span>
+              <h2>สัดส่วนผลการสำรวจ</h2>
+            </div>
+            <div className="pixel-donut-wrap">
+              <div className="pixel-donut" style={donutStyle}>
+                <div>
+                  <strong>{allowedPct.toFixed(1)}%</strong>
+                  <small>อนุญาต</small>
+                </div>
+              </div>
+              <div className="pixel-donut-legend">
+                <div>
+                  <i className="dg" />
+                  <span>อนุญาต</span>
+                  <b>{allowed.toLocaleString()}</b>
+                  <em>{allowedPct.toFixed(1)}%</em>
+                </div>
+                <div>
+                  <i className="dr" />
+                  <span>ไม่อนุญาต</span>
+                  <b>{denied.toLocaleString()}</b>
+                  <em>{deniedPct.toFixed(1)}%</em>
+                </div>
+                <div>
+                  <i className="dp" />
+                  <span>รอพิจารณา</span>
+                  <b>{pending.toLocaleString()}</b>
+                  <em>{pendingPct.toFixed(1)}%</em>
+                </div>
+              </div>
+            </div>
+          </GlassCard>
+
+          {/* Recent Surveys Panel */}
+          <GlassCard className="panel pixel-recent-panel">
+            <div className="pixel-panel-title">
+              <span className="pixel-title-icon">▣</span>
+              <h2>การสำรวจล่าสุด</h2>
+              {onNavigate && (
+                <button
+                  className="pixel-all"
+                  type="button"
+                  onClick={() => onNavigate('field')}
+                >
+                  บันทึกใหม่ →
+                </button>
+              )}
+            </div>
+            <div className="pixel-recent-slot">
+              <table className="table">
+                <thead>
                   <tr>
-                    <td colSpan="5" className="empty">
-                      ยังไม่มีผลสำรวจ
-                    </td>
+                    <th>รหัสรายการ</th>
+                    <th>สถานี</th>
+                    <th>จังหวัด</th>
+                    <th>ผล</th>
+                    <th>เวลาบันทึก</th>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </GlassCard>
+                </thead>
+                <tbody>
+                  {data.recent.length > 0 ? (
+                    data.recent.map((item) => (
+                      <tr key={item.recordId}>
+                        <td>{item.recordId}</td>
+                        <td>{item.station}</td>
+                        <td>{item.province}</td>
+                        <td>
+                          <span
+                            className={`badge ${
+                              item.permit === 'อนุญาต'
+                                ? 'ok'
+                                : item.permit === 'ไม่อนุญาต'
+                                ? 'no'
+                                : 'wait'
+                            }`}
+                          >
+                            {item.permit}
+                          </span>
+                        </td>
+                        <td>{new Date(item.savedAt).toLocaleString('th-TH')}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="empty">
+                        ยังไม่มีผลสำรวจ
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </GlassCard>
+        </div>
       </section>
     </main>
   );
@@ -642,6 +751,97 @@ function LoginView({ onLoginSuccess }) {
 }
 
 // --------------------------------------------------------------------------
+// --------------------------------------------------------------------------
+// Navigation & Control Room Shell Components
+// --------------------------------------------------------------------------
+
+function ControlStrip() {
+  const [timeStr, setTimeStr] = useState(() =>
+    new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+  );
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeStr(
+        new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      );
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const dateStr = new Date().toLocaleDateString('th-TH', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  });
+
+  return (
+    <div className="pixel-system-strip">
+      <span className="pixel-online-dot" />
+      <span>ระบบทำงานปกติ</span>
+      <i />
+      <span className="pixel-calendar">▣</span>
+      <span>{dateStr}</span>
+      <b>{timeStr} น.</b>
+      <i />
+      <span className="pixel-user">●</span>
+      <span>
+        ผู้ดูแลระบบ<br />
+        <small>Administrator</small>
+      </span>
+    </div>
+  );
+}
+
+function Sidebar({ currentPage, onNavigate, onLogout }) {
+  return (
+    <aside className="pixel-sidebar">
+      <div className="pixel-side-menu">
+        <div className="pixel-menu-caption">MAIN MENU</div>
+        <button
+          type="button"
+          className={`pixel-side-button ${currentPage === 'dashboard' ? 'active' : ''}`}
+          onClick={() => onNavigate('dashboard')}
+        >
+          <span className="icon-wrap">⌂</span>
+          <span>Dashboard</span>
+        </button>
+
+        <button
+          type="button"
+          className={`pixel-side-button ${currentPage === 'field' ? 'active' : ''}`}
+          onClick={() => onNavigate('field')}
+        >
+          <span className="icon-wrap">▤</span>
+          <span>Field Visit / Site Record</span>
+        </button>
+
+        <button
+          type="button"
+          className="pixel-side-button logout"
+          onClick={onLogout}
+        >
+          <span className="icon-wrap">⇥</span>
+          <span>ออกจากระบบ</span>
+        </button>
+      </div>
+
+      <div className="pixel-side-footer">
+        <div className="pixel-signal">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <strong>NBTC MICROWAVE</strong>
+        <small>Survey Control Room</small>
+      </div>
+    </aside>
+  );
+}
+
+// --------------------------------------------------------------------------
 // 5. Main Application & Router
 // --------------------------------------------------------------------------
 
@@ -672,7 +872,7 @@ function App() {
 
   if (!token) {
     return (
-      <div className="app">
+      <div className="app no-sidebar">
         <Spotlight />
         <LoginView onLoginSuccess={(newToken) => setToken(newToken)} />
       </div>
@@ -680,53 +880,37 @@ function App() {
   }
 
   return (
-    <div className="app">
+    <div className="app has-sidebar">
       <Spotlight />
 
       {/* Main Navigation Header */}
       <nav className="nav">
         <div className="navin">
           <div className="brand">
-            <Icon name="dashboard" />
+            <img src="/assets/images/nbtc-logo-dashboard.png" alt="NBTC Logo" />
             <div>
               <small>SURVEY CONTROL ROOM</small>
               NBTC MICROWAVE
             </div>
           </div>
 
-          <div className="navbtns">
-            <button
-              type="button"
-              className={`navbtn ${currentPage === 'dashboard' ? 'active' : ''}`}
-              onClick={() => navigateTo('dashboard')}
-            >
-              <Icon name="dashboard" />
-              <span>Dashboard</span>
-            </button>
-
-            <button
-              type="button"
-              className={`navbtn ${currentPage === 'field' ? 'active' : ''}`}
-              onClick={() => navigateTo('field')}
-            >
-              <Icon name="field-visit" />
-              <span>Field Visit / Site Record</span>
-            </button>
-
-            <button
-              type="button"
-              className="navbtn logout"
-              onClick={handleLogout}
-            >
-              <Icon name="logout" />
-              <span>ออกจากระบบ</span>
-            </button>
-          </div>
+          <ControlStrip />
         </div>
       </nav>
 
+      {/* Control Room Sidebar */}
+      <Sidebar
+        currentPage={currentPage}
+        onNavigate={navigateTo}
+        onLogout={handleLogout}
+      />
+
       {/* Page Content */}
-      {currentPage === 'dashboard' ? <Dashboard /> : <FieldVisit />}
+      {currentPage === 'dashboard' ? (
+        <Dashboard onNavigate={navigateTo} />
+      ) : (
+        <FieldVisit />
+      )}
     </div>
   );
 }

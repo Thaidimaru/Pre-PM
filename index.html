@@ -3,25 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="NBTC Microwave — Pre-PM Survey Control Room & Field Operations" />
+  <meta name="description" content="NBTC Microwave — Survey Control Room & Field Operations" />
+  <meta name="theme-color" content="#020b1b" />
   <title>Survey Control Room — NBTC Microwave</title>
 
-  <!-- Google Fonts -->
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/assets/icons/dashboard.svg" />
+
+  <!-- Google Fonts: Inter, Noto Sans Thai, Sarabun -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Core Stylesheet -->
+  <!-- Core & Theme Stylesheets -->
   <link rel="stylesheet" href="/assets/css/style.css" />
+  <link rel="stylesheet" href="/assets/css/dashboard-theme.css" />
+</head>
+<body>
+  <!-- React Mount Root -->
+  <div id="root"></div>
+
+  <noscript>
+    <div style="padding:2rem;text-align:center;color:#edf6ff;font-family:sans-serif;">
+      กรุณาเปิดใช้งาน JavaScript เพื่อใช้งานระบบ Survey Control Room
+    </div>
+  </noscript>
 
   <!-- React 18 & Babel Standalone CDN -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-</head>
-<body>
-  <!-- React Mount Root -->
-  <div id="root"></div>
 
   <!-- Application Logic -->
   <script type="text/babel" src="/assets/js/app.js"></script>
