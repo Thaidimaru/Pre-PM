@@ -51,10 +51,10 @@ export function DashboardView({ onNavigate }) {
             <Radio className="h-3.5 w-3.5" />
             <span>Operational Telemetry & Control</span>
           </div>
-          <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-white lg:text-4xl">
+          <h1 className="mt-1 text-3xl font-extrabold tracking-normal leading-normal text-white lg:text-4xl">
             <ShinyText>ศูนย์ควบคุมผลสำรวจสถานี (Pre-PM)</ShinyText>
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-slate-400 leading-relaxed">
             ติดตามความคืบหน้าการลงพื้นที่ตรวจเยี่ยมเจ้าของพื้นที่สถานีวิทยุคมนาคม NBTC Microwave แบบเรียลไทม์
           </p>
         </div>

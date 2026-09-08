@@ -53,9 +53,9 @@ export function Sidebar({ currentPage, onNavigate, onLogout }) {
                   >
                     <Icon className="h-5 w-5" />
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col leading-normal">
                     <span className="text-sm font-semibold">{item.label}</span>
-                    <span className="text-[11px] text-slate-400">{item.sublabel}</span>
+                    <span className="text-[11px] text-slate-400 leading-normal">{item.sublabel}</span>
                   </div>
 
                   {isActive && (

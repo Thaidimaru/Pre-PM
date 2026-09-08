@@ -36,7 +36,7 @@ export function RecentSurveys({ recent = [], onNavigate }) {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/20 text-cyan-300">
             <Clock className="h-4 w-4" />
           </div>
-          <h2 className="text-lg font-bold text-white tracking-wide">
+          <h2 className="text-lg font-bold text-white tracking-normal leading-normal">
             การสำรวจล่าสุด
           </h2>
         </div>

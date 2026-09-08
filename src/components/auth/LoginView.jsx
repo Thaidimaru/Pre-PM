@@ -66,7 +66,7 @@ export function LoginView({ onLoginSuccess }) {
           </div>
 
           <div className="mt-6 mb-6">
-            <h1 className="text-2xl font-bold tracking-tight text-white">
+            <h1 className="text-2xl font-bold tracking-normal leading-normal text-white">
               <ShinyText>เข้าสู่ระบบ</ShinyText>
             </h1>
             <p className="mt-1.5 text-xs text-slate-400 leading-relaxed">
@@ -140,7 +140,7 @@ export function LoginView({ onLoginSuccess }) {
           </form>
 
           {/* Footer note */}
-          <div className="mt-6 text-center text-[11px] text-slate-400">
+          <div className="mt-6 text-center text-[11px] text-slate-400 leading-normal">
             ระบบความปลอดภัยยืนยันตัวตนด้วยสิทธิ์ประจำสถานี • Pre-PM Platform
           </div>
         </GlassCard>

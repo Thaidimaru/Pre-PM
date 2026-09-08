@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.3] - 2026-09-08
+
+### Fixed
+- Fixed Thai font rendering, text alignment, and diacritic clipping issues across the application.
+- Integrated comprehensive Google Fonts (`Noto Sans Thai`, `Prompt`, `Sarabun`, and `Inter`) with full weights in `index.html`.
+- Configured font fallback stack and modern typography standards in `src/index.css` (`font-size-adjust: from-font`, `letter-spacing: normal`, `line-break: relaxed`, `text-wrap: pretty`, and line-height `1.6`).
+- Fixed text gradient clipping in `ShinyText` component by applying vertical padding, box-decoration-break cloning, and proper line height.
+- Resolved Thai character spacing and tone mark distortion by replacing `tracking-tight` and `tracking-wide` with `tracking-normal leading-normal` on all Thai headings, cards, and buttons.
+
 ## [2.0.2] - 2026-09-08
 
 ### Fixed

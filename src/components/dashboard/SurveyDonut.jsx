@@ -24,7 +24,7 @@ export function SurveyDonut({ stats = {} }) {
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-500/20 text-purple-300">
           <PieChart className="h-4 w-4" />
         </div>
-        <h2 className="text-lg font-bold text-white tracking-wide">
+        <h2 className="text-lg font-bold text-white tracking-normal leading-normal">
           สัดส่วนผลการสำรวจ
         </h2>
       </div>

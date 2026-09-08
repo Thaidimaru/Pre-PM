@@ -178,10 +178,10 @@ export function FieldVisitView() {
           <div className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-400">
             FIELD VISIT / SITE RECORD
           </div>
-          <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-white lg:text-3xl">
+          <h1 className="mt-1 text-2xl font-extrabold tracking-normal leading-normal text-white lg:text-3xl">
             <ShinyText>แบบบันทึกเข้าตรวจเยี่ยมเจ้าของพื้นที่</ShinyText>
           </h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-slate-400 leading-relaxed">
             บันทึกการขออนุญาตเข้าพื้นที่ สภาพอุปกรณ์ภาคสนาม และภาพถ่ายประกอบการทำงาน
           </p>
         </div>
@@ -192,7 +192,7 @@ export function FieldVisitView() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20 text-cyan-400">
               <RadioIcon className="h-4 w-4" />
             </div>
-            <h2 className="text-base font-bold text-white tracking-wide">
+            <h2 className="text-base font-bold text-white tracking-normal leading-normal">
               01 · ข้อมูลสถานี
             </h2>
           </div>
@@ -282,7 +282,7 @@ export function FieldVisitView() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20 text-cyan-400">
               <User className="h-4 w-4" />
             </div>
-            <h2 className="text-base font-bold text-white tracking-wide">
+            <h2 className="text-base font-bold text-white tracking-normal leading-normal">
               02 · ผู้ให้ข้อมูลในพื้นที่
             </h2>
           </div>
@@ -345,7 +345,7 @@ export function FieldVisitView() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20 text-cyan-400">
               <ShieldCheck className="h-4 w-4" />
             </div>
-            <h2 className="text-base font-bold text-white tracking-wide">
+            <h2 className="text-base font-bold text-white tracking-normal leading-normal">
               03 · การขออนุญาตเข้าพื้นที่
             </h2>
           </div>
@@ -399,7 +399,7 @@ export function FieldVisitView() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20 text-cyan-400">
               <Zap className="h-4 w-4" />
             </div>
-            <h2 className="text-base font-bold text-white tracking-wide">
+            <h2 className="text-base font-bold text-white tracking-normal leading-normal">
               04 · สอบถามการใช้งาน
             </h2>
           </div>
@@ -422,7 +422,7 @@ export function FieldVisitView() {
                     ['batteryStatus', 'แบตเตอรี่สำรองมีปัญหาหรือไม่', ['ไม่มี', 'มี']]
                   ].map(([key, label, options]) => (
                     <tr key={key} className="hover:bg-slate-800/30">
-                      <td className="px-4 py-3 font-medium text-slate-200">{label}</td>
+                      <td className="px-4 py-3 font-medium text-slate-200 leading-normal">{label}</td>
                       <td className="px-4 py-2.5">
                         <Select
                           value={formData[key] || options[0]}
@@ -467,7 +467,7 @@ export function FieldVisitView() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20 text-cyan-400">
               <TreePine className="h-4 w-4" />
             </div>
-            <h2 className="text-base font-bold text-white tracking-wide">
+            <h2 className="text-base font-bold text-white tracking-normal leading-normal">
               05 · สภาพแวดล้อมหน้างาน
             </h2>
           </div>
@@ -520,7 +520,7 @@ export function FieldVisitView() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20 text-cyan-400">
               <Camera className="h-4 w-4" />
             </div>
-            <h2 className="text-base font-bold text-white tracking-wide">
+            <h2 className="text-base font-bold text-white tracking-normal leading-normal">
               06 · ภาพถ่ายก่อนดำเนินงาน
             </h2>
           </div>
@@ -599,7 +599,7 @@ export function FieldVisitView() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20 text-cyan-400">
               <CheckSquare className="h-4 w-4" />
             </div>
-            <h2 className="text-base font-bold text-white tracking-wide">
+            <h2 className="text-base font-bold text-white tracking-normal leading-normal">
               07 · ยืนยันข้อมูล
             </h2>
           </div>
@@ -653,7 +653,7 @@ export function FieldVisitView() {
           whileTap={{ scale: 0.99 }}
           type="submit"
           disabled={isSubmitting}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500 py-3.5 text-base font-bold text-slate-950 shadow-lg shadow-blue-500/20 hover:shadow-cyan-500/30 transition-all disabled:opacity-60 cursor-pointer"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500 py-3.5 text-base font-bold tracking-normal leading-normal text-slate-950 shadow-lg shadow-blue-500/20 hover:shadow-cyan-500/30 transition-all disabled:opacity-60 cursor-pointer"
         >
           {isSubmitting ? (
             <>

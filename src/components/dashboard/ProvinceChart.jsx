@@ -12,7 +12,7 @@ export function ProvinceChart({ provinces = [] }) {
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20 text-cyan-300">
           <MapPin className="h-4 w-4" />
         </div>
-        <h2 className="text-lg font-bold text-white tracking-wide">
+        <h2 className="text-lg font-bold text-white tracking-normal leading-normal">
           สรุปผลการสำรวจรายจังหวัด
         </h2>
       </div>

@@ -84,7 +84,7 @@ export function Navbar() {
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 text-white shadow-[0_0_12px_rgba(8,127,255,0.4)]">
               <ShieldCheck className="h-5 w-5" />
             </div>
-            <div className="text-left leading-tight">
+            <div className="text-left leading-normal space-y-0.5">
               <div className="text-xs font-semibold text-white">ผู้ดูแลระบบ</div>
               <div className="text-[10px] text-slate-400">Administrator</div>
             </div>
