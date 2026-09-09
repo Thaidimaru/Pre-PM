@@ -26,7 +26,7 @@ export function ProvinceChart({ provinces = [] }) {
             src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Thailand_provinces_th.svg"
             alt="แผนที่ประเทศไทยแบ่งจังหวัด"
             loading="lazy"
-            className="h-full max-h-[340px] w-auto object-contain opacity-70 filter brightness-110 contrast-125"
+            className="h-full max-h-[340px] w-auto object-contain opacity-80 filter grayscale invert contrast-125 brightness-110 mix-blend-screen drop-shadow-md"
           />
 
           {/* Pulsing Radar Markers */}
