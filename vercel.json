@@ -1,17 +1,26 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "functions": {
-    "api/handler.js": {
-      "includeFiles": "DATABASE.xlsx,access-password.txt,survey-*.json"
+    "api/*.js": {
+      "includeFiles": [
+        "DATABASE.xlsx",
+        "access-password.txt",
+        "survey-*.json"
+      ]
     }
   },
   "rewrites": [
+    { "source": "/api/login", "destination": "/api/handler?route=login" },
+    { "source": "/api/database", "destination": "/api/handler?route=database" },
+    { "source": "/api/save", "destination": "/api/handler?route=save" },
+    { "source": "/api/dashboard", "destination": "/api/handler?route=dashboard" },
     { "source": "/login", "destination": "/api/handler?route=login" },
     { "source": "/database", "destination": "/api/handler?route=database" },
     { "source": "/save", "destination": "/api/handler?route=save" },
-    { "source": "/api/dashboard", "destination": "/api/handler?route=dashboard" },
-    { "source": "/dashboard", "destination": "/index.html" }
+    { "source": "/dashboard", "destination": "/index.html" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

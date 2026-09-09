@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { RefreshCw, Radio, Sparkles } from 'lucide-react';
+import { RefreshCw, Radio } from 'lucide-react';
 import { ShinyText } from '@/components/ui/shiny-text';
 import { KpiCards } from './KpiCards';
 import { ProvinceChart } from './ProvinceChart';

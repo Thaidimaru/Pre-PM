@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.6] - 2026-09-09
+
+### Fixed
+- Fixed radial gradient styling in `ProvinceChart.jsx` using Tailwind CSS v4 compatible syntax (`bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))]`).
+- Cleaned up unused Lucide React icon imports across dashboard components (`BarChart3`, `Sparkles`).
+
+### Added
+- Added standalone lightweight Node.js API server (`server.js`) and photo export script (`scripts/export-photos.js`).
+- Updated `vercel.json` route rewrites and function packaging configuration.
+
 ## [2.0.3] - 2026-09-08
 
 ### Fixed

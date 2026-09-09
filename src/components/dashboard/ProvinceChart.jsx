@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, BarChart3 } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { GlassCard } from '@/components/ui/glass-card';
 
 export function ProvinceChart({ provinces = [] }) {
@@ -21,7 +21,7 @@ export function ProvinceChart({ provinces = [] }) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-5 flex-1">
         {/* Thailand Map & Radar Pulses */}
         <div className="lg:col-span-5 relative flex items-center justify-center min-h-[300px] rounded-xl border border-slate-800/80 bg-slate-950/40 p-4 overflow-hidden">
-          <div className="absolute inset-0 bg-radial-gradient from-blue-900/20 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 to-transparent pointer-events-none" />
           <img
             src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Thailand_provinces_th.svg"
             alt="แผนที่ประเทศไทยแบ่งจังหวัด"
